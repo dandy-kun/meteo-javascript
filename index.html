@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>App LM</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    </head>
+    <body>
+        <br/>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="jumbotron">
+                <div class="container">
+                    <h1>Meteo</h1>
+                    <p class="lead">Meteo londre AJAX/JSON</p>
+                    <p><a class="btn btn-primary btn-lg" role="button" onclick="meteo()">Actualisez</a></p>
+                </div>
+            </div>
+            <div class="container">
+                <table id="table" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>longitude</th>
+                            <th>latitude</th>
+                            <th>Country</th>
+                            <th>description</th>
+                            <th>ville</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="lon"></td>
+                            <td id="lat"></td>
+                            <td id="cou"></td>
+                            <td id="des"></td>
+                            <td id="cit"></td>
+                        </tr>
+                    </tbody>
+                </table>                
+            </div>
+            <script type="application/javascript">
+                function meteo(){
+                    try
+                    {
+                        xhr = new ActiveXObject("Microsoft.XMLHTTP"); // Essayer IE 
+                    }
+                    catch(e)   // Echec, utiliser l'objet standard 
+                    {
+                        xhr = new XMLHttpRequest();
+                    }
+                try
+                {
+                    xhr.open('GET','http://api.openweathermap.org/data/2.5/weather?q=London,uk',false);
+                    xhr.send(null);
+                    if(xhr.status==200)
+                        var list =xhr.responseText;
+                    var obj = JSON.parse(xhr.responseText);
+                    document.getElementById("lon").innerHTML= obj.coord.lon; 
+                    document.getElementById("lat").innerHTML= obj.coord.lat;
+                    document.getElementById("cou").innerHTML= obj.sys.country;
+                    document.getElementById("des").innerHTML= obj.weather[0].main;
+                    document.getElementById("cit").innerHTML= obj.name;
+                   }
+                    catch(e)
+                    {
+                       document.write(e);
+                    }
+                }
+            </script>
+            <footer class="footer">
+                <p>©by dandy</p>
+            </footer>
+        </div>
+    </body>
+</html>
